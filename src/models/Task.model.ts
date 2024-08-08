@@ -40,3 +40,5 @@ const taskSchema: Schema<Task> = new Schema({
 
 const TaskModel = (mongoose.models.Task as mongoose.Model<Task>) 
 || mongoose.model<Task>("Task", taskSchema)
+
+export default TaskModel;
