@@ -5,10 +5,10 @@ export interface User extends Document{
     email: string;
     password: string;
     useFor: string; 
-    sector: string;
-    refreshToken: string;
+    sector?: string;
+    refreshToken?: string;
     isVerified: boolean;
-    varifyCode: Number;
+    varifyCode: string;
     varifyCodeExpiry: Date;
 }
 
@@ -44,7 +44,7 @@ const userSchema: Schema<User> = new Schema({
         default: false
     },
     varifyCode: {
-        type: Number, 
+        type: String, 
         default: null
     },
     varifyCodeExpiry: {
