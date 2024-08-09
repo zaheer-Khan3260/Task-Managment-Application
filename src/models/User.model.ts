@@ -1,4 +1,5 @@
 import mongoose, {Schema, Document} from "mongoose";
+import jwt from "jsonwebtoken"
 
 export interface User extends Document{
     fullName: string;
@@ -53,7 +54,8 @@ const userSchema: Schema<User> = new Schema({
     }
 }, {timestamps: true})
 
- const UserModel = (mongoose.models.User as mongoose.Model<User>)
+
+ const User = (mongoose.models.User as mongoose.Model<User>)
  || mongoose.model<User>("User", userSchema)
 
- export default UserModel;
+ export default User;
