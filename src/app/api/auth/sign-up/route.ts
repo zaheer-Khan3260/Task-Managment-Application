@@ -31,9 +31,9 @@ export async function POST(request: Request){
                 password: hashPassword,
                 useFor,
                 sector,
-                verifyCode: Math.floor(1000 + Math.random() * 9000).toString(),
+                varifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
                 isVerified: false,
-                verifyCodeExpiry: expiryDate
+                varifyCodeExpiry: expiryDate
             })
 
             await newUser.save()

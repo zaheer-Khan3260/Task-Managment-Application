@@ -2,17 +2,17 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User.model";
 import  bcrypt  from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
-export async function POST(request: Request){
+export async function POST(request: NextRequest){
     await dbConnect()
     
     const { email, password } = await request.json()
 
     const currentUser = await User.findOne({email})
     if(!currentUser){
-        return Response.json(
+        return NextResponse.json(
             {
                 success: false,
                 message: "User does not exist"
@@ -24,6 +24,17 @@ export async function POST(request: Request){
     }
 
     const passwordValidation = await bcrypt.compare(password, currentUser.password)
+    if (!passwordValidation) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Invalid password",
+            },
+            {
+                status: 401,
+            }
+        );
+    }
     const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(currentUser._id)
     if(refreshToken){
         currentUser.refreshToken = refreshToken
@@ -42,17 +53,15 @@ export async function POST(request: Request){
         success: true,
         message: "User logged in successfully",
         user: loggedInUser,
-    })
+    },
+    {
+        status: 201
+    }
+)
     response.cookies.set('aT', accessToken, options)
     response.cookies.set('rT', refreshToken, options)
 
-    return Response.json({
-        success: true,
-        message: "User logged in successfully",
-        user: response
-    }, {
-        status: 201
-    })
+   return response
 
 }
 
