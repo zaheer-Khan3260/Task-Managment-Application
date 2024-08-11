@@ -41,7 +41,8 @@ export async function POST(request: NextRequest){
     }
     await currentUser.save({ validateBeforeSave: false })
 
-    const loggedInUser = await User.findById(currentUser._id).select("-password -refreshToken")
+    const loggedInUser = await User.findById(currentUser._id)
+    .select("-password -refreshToken -varifyCode")
     const options = {
         httpOnly: true,
         secure: true,

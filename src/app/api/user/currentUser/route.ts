@@ -20,7 +20,8 @@ export async function GET(req: NextRequest){
        )
     }
     
-    const userData = await User.findById(user.id).select("-password -refreshToken")
+    const userData = await User.findById(user.id)
+    .select("-password -refreshToken -varifyCode")
     if(!userData){
         return NextResponse.json(
             {
