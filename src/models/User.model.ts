@@ -1,7 +1,7 @@
 import mongoose, {Schema, Document} from "mongoose";
 import jwt from "jsonwebtoken"
 
-export interface User extends Document{
+export interface UserSchema extends Document{
     fullName: string;
     email: string;
     password: string;
@@ -13,7 +13,7 @@ export interface User extends Document{
     varifyCodeExpiry: Date;
 }
 
-const userSchema: Schema<User> = new Schema({
+const userSchema: Schema<UserSchema> = new Schema({
     fullName: {
         type: String,
         required: true
@@ -55,7 +55,7 @@ const userSchema: Schema<User> = new Schema({
 }, {timestamps: true})
 
 
- const User = (mongoose.models.User as mongoose.Model<User>)
- || mongoose.model<User>("User", userSchema)
+ const User = (mongoose.models.User as mongoose.Model<UserSchema>)
+ || mongoose.model<UserSchema>("User", userSchema)
 
  export default User;
