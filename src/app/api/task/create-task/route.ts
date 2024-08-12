@@ -23,13 +23,16 @@ export async function POST(req: NextRequest) {
         )
     }
 
+    console.log("userdata: ", user);
+    
+
     const task = new Task({
         content,
         priority,
         assignTo,
         completionTime,
         isCompleted,
-        userId: user._id
+        owner: user.id
     })
     await task.save()
     if(!task){

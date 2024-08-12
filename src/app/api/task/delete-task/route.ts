@@ -5,10 +5,9 @@ import Task from "@/models/Task.model";
 
 export async function GET(req: NextRequest) {
   await dbConnect();
+  const taskId  = req.url.split("=")[1];
 
-  const postId  = req.json()
-
-  const deletePost = await Task.findByIdAndDelete(postId)
+  const deletePost = await Task.findByIdAndDelete(taskId)
 
   if(!deletePost){
     return NextResponse.json(
