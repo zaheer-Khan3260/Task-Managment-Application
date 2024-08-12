@@ -1,6 +1,4 @@
 import mongoose, {Schema, Document} from "mongoose";
-import jwt from "jsonwebtoken"
-
 export interface UserSchema extends Document{
     fullName: string;
     email: string;
