@@ -1,16 +1,16 @@
 import mongoose, {Schema, Document, mongo} from "mongoose";
-import { User } from "./User.model";
+import { UserSchema } from "./User.model";
 
-export interface Task extends Document{
+export interface TaskSchema extends Document{
     content: string;
     priority: Number;
     assignTo: string;
     completionTime: Date;
-    owner: User;
+    owner: UserSchema;
     isCompleted: boolean;
 }
 
-const taskSchema: Schema<Task> = new Schema({
+const taskSchema: Schema<TaskSchema> = new Schema({
     content: {
         type: String, 
         required: true
@@ -38,7 +38,7 @@ const taskSchema: Schema<Task> = new Schema({
     }
 })
 
-const TaskModel = (mongoose.models.Task as mongoose.Model<Task>) 
-|| mongoose.model<Task>("Task", taskSchema)
+const Task = (mongoose.models.Task as mongoose.Model<TaskSchema>) 
+|| mongoose.model<TaskSchema>("Task", taskSchema)
 
-export default TaskModel;
+export default Task;
