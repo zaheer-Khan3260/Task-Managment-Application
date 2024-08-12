@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
         isCompleted,
         userId: user._id
     })
+    await task.save()
     if(!task){
         return NextResponse.json(
             {
@@ -53,8 +54,5 @@ export async function POST(req: NextRequest) {
             status: 201
         }
     )
-
-
-
 
 }
