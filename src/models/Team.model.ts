@@ -1,16 +1,15 @@
 import mongoose, {Schema, Document} from "mongoose";
-import { User } from "./User.model";
-
-export interface Team extends Document{
+import { UserSchema } from "./User.model";
+export interface TeamSchema extends Document{
     teamName: string;
-    createdBy: User;
-    members: User[];
+    createdBy: UserSchema;
+    members: UserSchema[];
     department: string;
     teamToken: string;
 }
 
 
-const teamSchema: Schema<Team> = new Schema(
+const teamSchema: Schema<TeamSchema> = new Schema(
     {
         teamName: { 
             type: String, 
@@ -18,12 +17,15 @@ const teamSchema: Schema<Team> = new Schema(
          },
         createdBy: { 
             type: Schema.Types.ObjectId, 
-            ref: 'User', required: true 
+            ref: 'User', 
+            required: true 
         },
         members: [
             { 
                 type: Schema.Types.ObjectId, 
-                ref: 'User' 
+                ref: 'User',
+                required: true
+
             }
         ],
         department: { 
@@ -40,7 +42,7 @@ const teamSchema: Schema<Team> = new Schema(
     }
 ) 
 
-const teamModel = (mongoose.models.Team as mongoose.Model<Team>)
-|| mongoose.model<Team>("Team", teamSchema)
+const Team = (mongoose.models.Team as mongoose.Model<TeamSchema>)
+|| mongoose.model<TeamSchema>("Team", teamSchema)
 
-export default teamModel;
+export default Team;

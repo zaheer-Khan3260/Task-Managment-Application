@@ -23,6 +23,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/api/user/:path*',
-    '/api/task/:path*'
+    '/api/task/:path*',
+    '/api/team/:path*'
   ]
 }
