@@ -24,8 +24,6 @@ const teamSchema: Schema<TeamSchema> = new Schema(
             { 
                 type: Schema.Types.ObjectId, 
                 ref: 'User',
-                required: true
-
             }
         ],
         department: { 
@@ -34,6 +32,7 @@ const teamSchema: Schema<TeamSchema> = new Schema(
         },
         teamToken: { 
             type: String, 
+            unique: true,
             required: true 
         }
     },
