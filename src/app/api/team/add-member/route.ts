@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Team from "@/models/Team.model";
+import mongoose from "mongoose";
 
 export async function POST(req: NextRequest){
     await dbConnect();
     
     const { userId, teamToken} = await req.json()
+
+    const userObjectId = new mongoose.Types.ObjectId(userId);
     
     const team = await Team.findOne({ teamToken });
     if(!team) {
@@ -19,18 +22,15 @@ export async function POST(req: NextRequest){
             }
         )
     }
-    console.log("team console: ", team)
-    console.log("tyep of team console : ", typeof(team._id))
-    const updatedMembers = team.members.push(userId);
-    const updatedteam = await Team.findByIdAndUpdate(team._id, {
-        members: updatedMembers,
-    },
-    {
-        new: true,
-    }
-    )
+    
+    const updatedTeam = await Team.findByIdAndUpdate(team._id, 
+        { 
+            members: [...team.members, userObjectId]
+        }, 
+        { new: true }
+    ).populate("members")
 
-    if(!updatedteam) {
+    if(!updatedTeam) {
         return NextResponse.json(
             {
                 success: false,
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest){
         {
             success: true,
             message: "Team member added successfully",
-            team: updatedteam
+            team: updatedTeam
         },
         {
             status: 200
