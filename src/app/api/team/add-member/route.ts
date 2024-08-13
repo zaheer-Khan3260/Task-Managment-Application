@@ -19,8 +19,10 @@ export async function POST(req: NextRequest){
             }
         )
     }
+    console.log("team console: ", team)
+    console.log("tyep of team console : ", typeof(team._id))
     const updatedMembers = team.members.push(userId);
-    const updatedteam = Team.findByIdAndUpdate(team._id, {
+    const updatedteam = await Team.findByIdAndUpdate(team._id, {
         members: updatedMembers,
     },
     {

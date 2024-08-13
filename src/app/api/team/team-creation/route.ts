@@ -7,6 +7,18 @@ export async function POST(req: NextRequest){
     await dbConnect();
     const { teamName, members, department }  = await req.json();
 
+    const teamNameValidation = await Team.findOne({teamName: teamName})
+    if(teamNameValidation){
+        return NextResponse.json({
+            success: false,
+            message: 'Team name already exists'
+        },
+        {
+            status: 409
+        }
+        )
+    }
+
     const userCookies = req.cookies.get('user')?.value
     const user = userCookies ? JSON.parse(userCookies) : null;
 
@@ -20,16 +32,17 @@ export async function POST(req: NextRequest){
         }
     )
     }
-
+   
     const teamToken = generateTeamToken();
 
     const team = new Team({
         teamName,
-        members,
+        members: members ? members : [],
         department,
         teamToken,
         createdBy: user.id
     })
+    await team.save();
 
     if(!team){
         return NextResponse.json({
