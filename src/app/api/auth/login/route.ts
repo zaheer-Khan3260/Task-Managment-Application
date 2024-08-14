@@ -41,6 +41,7 @@ export async function POST(request: NextRequest){
     }
     await currentUser.save({ validateBeforeSave: false })
 
+
     const loggedInUser = await User.findById(currentUser._id)
     .select("-password -refreshToken -varifyCode")
     const options = {
@@ -97,7 +98,8 @@ const generateAccessAndRefereshTokens = async(userId: any) =>{
         const accessToken = generateAccessToken()
         return {accessToken, refreshToken}
     } catch (error) {
-        console.log("An Error OCcure while generating Access and refresh token",error)
+        console.log("An Error Occure while generating Access and refresh token",error)
         throw new Error('Error generating tokens')
     }
 }
+
