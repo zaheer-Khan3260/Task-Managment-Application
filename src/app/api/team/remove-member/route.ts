@@ -22,7 +22,6 @@ export async function POST(req: NextRequest){
         )
     }
 
-
     const updatedTeam = await Team.findByIdAndUpdate(team._id, 
         { 
             members: team.members.filter(member => member.toString() !== userObjectId.toString())
@@ -51,5 +50,5 @@ export async function POST(req: NextRequest){
             status: 200
         }
     )
-    
+  9   
 }
