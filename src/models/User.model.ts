@@ -9,6 +9,7 @@ export interface UserSchema extends Document{
     isVerified: boolean;
     varifyCode: string;
     varifyCodeExpiry: Date;
+    location: string;
 }
 
 const userSchema: Schema<UserSchema> = new Schema({
@@ -49,6 +50,10 @@ const userSchema: Schema<UserSchema> = new Schema({
     varifyCodeExpiry: {
         type: Date, 
         default: null
+    },
+    location: {
+        type: String,
+        required: true
     }
 }, {timestamps: true})
 

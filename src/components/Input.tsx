@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputSchema>(function Input({
     return (
         <div className="mb-8">
             <label className="block text-gray-700 font-bold mb-2" htmlFor={id}>
-                {label}
+                {label}<span className='text-red-700'>*</span>
             </label>
             <input
                 className={`shadow-xl appearance-none border rounded-xl w-[95%] h-11 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${className}`}

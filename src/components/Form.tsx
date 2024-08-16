@@ -14,6 +14,7 @@ const Form = (): JSX.Element => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isRegister, setIsRegister] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [location, setLocation] = useState("")
 
   const checkEmailPasswordValidation = async (): Promise<void> => {
     setError(""); // Clear previous errors
@@ -135,7 +136,30 @@ const Form = (): JSX.Element => {
             </button>
           </div>
         </div>
-        <div className="w-full border-2 border-red-900 flex-shrink-0"></div>
+        <div className="w-full flex-shrink-0 p-4">
+        <div className=' w-full mt-2'>
+                <div className='text-[22px] font-bold'>
+                  Add your location 
+                </div>
+                <Input
+                label="Location"
+                type="text"
+                value={location}
+                onChange={(e:any) => setLocation(e.target.value)}
+                placeholder='Enter a location' className='' />
+            </div>
+          <label htmlFor="useFor"
+          className="block text-gray-700 font-bold mb-2"
+          >Use For</label>
+            <select name="" id="useFor" 
+            className="shadow-xl border rounded-xl w-[95%] h-11 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ">
+              <option value="0">Select</option>
+              <option value="1">Company</option>
+              <option value="2">Student</option>
+              <option value="3"></option>
+              <option value="4">Other</option>
+            </select>
+        </div>
       </div>
     </div>
   );
