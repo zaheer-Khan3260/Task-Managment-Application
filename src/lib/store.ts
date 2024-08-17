@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userSlice from './features/userSlice/userSlice'
+import emailSlice from './features/emailSlice/emailSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-        user: userSlice
+        user: userSlice,
+        email: emailSlice
     },
   })
 }

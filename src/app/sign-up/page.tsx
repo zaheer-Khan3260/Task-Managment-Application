@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import signUpImage from '@/Images/signupImage.jpeg'
 
-function page() {
+function SignUp() {
   return (
     <div className="w-full h-[100vh] flex bg-white ">
     {/* left side container */}
@@ -33,4 +33,4 @@ function page() {
   )
 }
 
-export default page
+export default SignUp

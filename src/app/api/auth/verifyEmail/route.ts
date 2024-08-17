@@ -35,7 +35,7 @@ export async function POST(req: NextRequest){
             isVerified: true,
             varifyCodeExpiry: null
         },
-    {new: true}  ).select("-password -refreshToken")
+    {new: true}  )
         console.log("Updated user", updatedUser)
         return NextResponse.json(
             {   
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest){
                 message: "Email verifid",
                 user: updatedUser
             }, {
-                status: 201
+                status: 200
             }
         )
     }else{

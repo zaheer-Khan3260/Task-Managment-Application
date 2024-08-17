@@ -6,6 +6,7 @@ import { CgArrowLeftR } from "react-icons/cg";
 import api from "../../api";
 import { useAppDispatch } from "@/lib/hook";
 import { add } from "@/lib/features/emailSlice/emailSlice";
+import  Router  from "next/router";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -96,6 +97,7 @@ const Form = (): JSX.Element => {
           
           const userData = response.data.data
           dispatch(add(userData?.email))
+          Router.push('/email-verification');
 
         } else {
           setError("Error registering user. Please try again.");
@@ -103,8 +105,6 @@ const Form = (): JSX.Element => {
       } catch (error) {
        console.log("REgister user error: ", error) 
       }
-
-
     }
 
 
