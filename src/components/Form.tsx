@@ -4,11 +4,14 @@ import React, { useState } from "react";
 import Input from "./Input";
 import { CgArrowLeftR } from "react-icons/cg";
 import api from "../../api";
+import { useAppDispatch } from "@/lib/hook";
+import { add } from "@/lib/features/emailSlice/emailSlice";
 
 // import { useNavigate } from "react-router-dom";
 
 const Form = (): JSX.Element => {
   // const navigate = useNavigate();
+  const dispatch = useAppDispatch()
   const [fullName, setFullName] = useState<string>("");
   const [validEmail, setValidEmail] = useState<string>("");
   const [validPassword, setValidPassword] = useState<string>("");
@@ -85,7 +88,22 @@ const Form = (): JSX.Element => {
       formData.append("location", location);
       formData.append("industry", industry);
       formData.append("useAs", useAs);
-      const response = await api.post("/api/auth/sign-up")
+      
+      try {
+        const response = await api.post("/api/auth/sign-up", formData);
+        if (response.status === 201) {
+          console.log("user data in form: ", response.data.data);
+          
+          const userData = response.data.data
+          dispatch(add(userData?.email))
+
+        } else {
+          setError("Error registering user. Please try again.");
+        }
+      } catch (error) {
+       console.log("REgister user error: ", error) 
+      }
+
 
     }
 
