@@ -20,7 +20,7 @@ const Form = (): JSX.Element => {
   const [industry, setIndustry] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isRegister, setIsRegister] = useState<boolean>(false);
+  // const [isRegister, setIsRegister] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [location, setLocation] = useState("");
   const [useAs, setUseAs] = useState("")
@@ -59,10 +59,10 @@ const Form = (): JSX.Element => {
           `/api/auth/email-validation?email=${email}`
         );
         if (response.status === 200) {
-          setIsRegister(true);
+          // setIsRegister(true);
           setError("Email is already registered");
         } else {
-          setIsRegister(false);
+          // setIsRegister(false);
           setValidEmail(email);
           setValidPassword(password);
           setCurrentIndex(currentIndex + 1); // Move to the next step
@@ -161,8 +161,7 @@ const Form = (): JSX.Element => {
           <div className="flex justify-end mt-7">
             <button
               className="bg-blue-500 mb-6 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-              // onClick={checkEmailPasswordValidation}
-              onClick={() => setCurrentIndex(currentIndex + 1)}
+              onClick={checkEmailPasswordValidation}
             >
               Next
             </button>
@@ -235,7 +234,9 @@ const Form = (): JSX.Element => {
             </h2>
           </div>
           <div className="flex justify-end mt-7">
-            <button className="bg-blue-500 mb-6 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+            <button
+            onClick={handleSubmit}
+            className="bg-blue-500 mb-6 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">
               Create
             </button>
           </div>

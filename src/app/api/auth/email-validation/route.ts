@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User.model";
-import { emit } from "process";
 
 export async function GET(req: NextRequest){
     await dbConnect();
@@ -32,7 +31,7 @@ export async function GET(req: NextRequest){
         )
     }
 
-    NextResponse.json({
+   return NextResponse.json({
         success: true,
         message: "Email registered"
     },

@@ -7,7 +7,7 @@ export async function POST(request: Request){
 
     try {
         const {fullName, email, password,
-             useFor, sector} = await request.json();
+             useFor, sector, location} = await request.json();
 
         const existingUser = await UserModel.findOne({ email })
         if(existingUser){
@@ -30,6 +30,7 @@ export async function POST(request: Request){
                 email,
                 password: hashPassword,
                 useFor,
+                location,
                 sector,
                 varifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
                 isVerified: false,
