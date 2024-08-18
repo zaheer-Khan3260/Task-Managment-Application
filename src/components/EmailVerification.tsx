@@ -2,13 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import api from '../../api';
-import { useAppDispatch, useAppSelector } from '@/lib/hook';
-import { login } from '@/lib/features/userSlice/userSlice';
-import { useRouter } from 'next/navigation';
+import {  useAppSelector } from '@/lib/hook';
+import Link from 'next/link';
 
 function EmailVerification() {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
   const [verificationCode, setVerificationCode] = useState('');
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState('');
@@ -45,24 +42,7 @@ function EmailVerification() {
 
       if (response.data.success) {
         setIsVerified(true);
-        const userData = response.data.user;
-
-        console.log("Email verification successful, user data:", userData);
-
-        const loginResponse = await api.post('/api/auth/login', {
-          email: userData.email,
-          password: userData.password,
-        });
-
-        console.log("Login API response:", loginResponse);
-
-        if (loginResponse.status === 201) {
-          const loginUserData = loginResponse.data.user;
-          dispatch(login(loginUserData));
-          router.push('/');
-        } else {
-          setError('Login failed, please check your credentials.');
-        }
+        
       } else {
         setError('Email verification failed.');
       }
@@ -112,7 +92,12 @@ function EmailVerification() {
         ) : (
           <div className="text-center">
             <p className="text-xl font-semibold text-green-600">
-              Your email has been verified!
+              Your email has been verified! 
+              <Link href="/login">
+              <span
+              className='text-2xl text-blue-600'
+              >Sign in</span>
+              </Link> 
             </p>
           </div>
         )}

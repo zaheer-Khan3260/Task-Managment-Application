@@ -20,11 +20,11 @@ export async function POST(request: Request) {
             )
         }
 
-        const emailResponse = await sendVerificationEmail(
+        const emailResponse = await sendVerificationEmail({
             email,
-            currentUser.fullName,
-            currentUser.varifyCode
-        )
+            fullName:currentUser.fullName,
+            varifyCode :currentUser.varifyCode
+    })
             console.log("line 28 in (SentEmail-verification) emailVerification response: ",
                  emailResponse);
         if (!emailResponse.success) {

@@ -2,18 +2,24 @@ import { resend } from "@/lib/resend";
 import VerificationEmail from "../../emails/VerificationEmail";
 import { ApiResponse } from "@/types/ApiResponse";
 
+export interface VerificationEmailSchema{
+    fullName: string;
+    email: string;
+    varifyCode: string;
+}
 
-export async function sendVerificationEmail(
-    email: string,
-    fullName: string,
-    verifyCode: string
+export async function sendVerificationEmail({
+    email,
+    fullName,
+    varifyCode
+}: VerificationEmailSchema
 ): Promise<ApiResponse>{
     try {
         const { data, error } = await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: email,
             subject: 'Verification mail',
-            react: VerificationEmail({fullName, otp: verifyCode}),
+            react: VerificationEmail({fullName, otp: varifyCode}),
           });
 
         return {
