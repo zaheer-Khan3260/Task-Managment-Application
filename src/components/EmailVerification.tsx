@@ -4,20 +4,37 @@ import { useState, useEffect } from 'react';
 import api from '../../api';
 import { useAppDispatch, useAppSelector } from '@/lib/hook';
 import { login } from '@/lib/features/userSlice/userSlice';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
 // import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid';
 
 function EmailVerification(){
   const dispatch = useAppDispatch()
+  const router = useRouter();
   const [verificationCode, setVerificationCode] = useState('');
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState('');
   const email = useAppSelector(state => state.email.email);
-  const [mounted, setMounted] = useState(false);
+ 
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+      const sendVerficationCode = async () => {
+       try {
+         const response = await api.post('/api/auh/sentEmail-verification', {email: email})
+         if(response.status === 200) {
+           console.log('Verification code sent');
+         }
+         else {
+           console.log('Failed to send verification code');
+         }
+       } catch (error) {
+        console.log('Failed to send verification code', error);
+        
+       }
+
+      }
+
+      sendVerficationCode();
+  })
 
   const handleSubmit = async () => {
     setError('');
@@ -25,9 +42,9 @@ function EmailVerification(){
     // Simulating API call to verify email
     try {
       const response = await api.post('/api/auth/verifyEmail', {email: email, code: verificationCode});
-      if(response.status === 200) {
+      if(response.data.success === true) {
         setIsVerified(true)
-        const userData = response.data.data
+        const userData = response.data.user
         const loginResponse = await api.post('/api/auth/login',
          {
           email: userData.email,
@@ -35,9 +52,9 @@ function EmailVerification(){
         }
         );
         if(loginResponse.status === 201){
-          const loginUserData = loginResponse.data.data
+          const loginUserData = loginResponse.data.user
           dispatch(login(loginUserData));
-          Router.push('/');
+          router.push('/');
         }
 
       }

@@ -6,13 +6,14 @@ import { CgArrowLeftR } from "react-icons/cg";
 import api from "../../api";
 import { useAppDispatch } from "@/lib/hook";
 import { add } from "@/lib/features/emailSlice/emailSlice";
-import  Router  from "next/router";
+import { useRouter } from "next/navigation";
 
 // import { useNavigate } from "react-router-dom";
 
 const Form = (): JSX.Element => {
   // const navigate = useNavigate();
   const dispatch = useAppDispatch()
+  const router = useRouter()
   const [fullName, setFullName] = useState<string>("");
   const [validEmail, setValidEmail] = useState<string>("");
   const [validPassword, setValidPassword] = useState<string>("");
@@ -82,22 +83,21 @@ const Form = (): JSX.Element => {
     
     
     if(location && industry && useAs){
-      const formData = new FormData();
-      formData.append("fullName", fullName);
-      formData.append("email", validEmail);
-      formData.append("password", validPassword);
-      formData.append("location", location);
-      formData.append("industry", industry);
-      formData.append("useAs", useAs);
-      
+    
       try {
-        const response = await api.post("/api/auth/sign-up", formData);
+        const response = await api.post("/api/auth/sign-up", {
+          fullName,
+          email: validEmail,
+          password: validPassword,
+          location,
+          sector: industry,
+          useFor: useAs,
+        });
         if (response.status === 201) {
-          console.log("user data in form: ", response.data.data);
-          
-          const userData = response.data.data
+          const userData = response.data.userData
+          console.log("User data: ", userData)
           dispatch(add(userData?.email))
-          Router.push('/email-verification');
+          router.push('/email-verification');
 
         } else {
           setError("Error registering user. Please try again.");
@@ -193,8 +193,8 @@ const Form = (): JSX.Element => {
             onChange={(e:any) => setUseAs(e.target.value) }
           >
             <option value="0">Select</option>
-            <option value="1">Company</option>
-            <option value="2">Student</option>
+            <option value="company">Company</option>
+            <option value="student">Student</option>
           </select>
           <div className=" w-full mt-6">
             <Input

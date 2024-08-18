@@ -46,11 +46,11 @@ export async function POST(request: Request) {
             }
         )
     } catch (error) {
-        console.log("An error occurred while Verify Email", error);
+        console.log("An error occurred while sending verification Email", error);
         return Response.json(
             {
-                success: true,
-                message: "An error occurred while Verify Email",
+                success: false,
+                message: "An error occurred while sending verification Email",
             }, {
                 status: 500,
             }
